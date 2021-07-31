@@ -31,9 +31,9 @@ RUN dnf install -y git file zip patch
 RUN mkdir /opt/openssl3
 
 # clone openssl v3
-RUN cd /usr/local/src && git clone --branch openssl-3.0.0-beta1 https://github.com/openssl/openssl.git
+RUN cd /usr/local/src && git clone --branch openssl-3.0.0-beta2 https://github.com/openssl/openssl.git
 # pull HTTP code from commit after V3 Beta 1 - fixes HTTP version errors
-RUN cd /usr/local/src/openssl && git fetch && git checkout 6a1f9cd -- crypto/http/http_client.c
+# RUN cd /usr/local/src/openssl && git fetch && git checkout 6a1f9cd -- crypto/http/http_client.c
 # RUN cd /usr/local/src/openssl && sed -i 's!-Wl,-znodelete!!g' ./Configurations/10-main.conf
 RUN cd /usr/local/src/openssl && ./Configure Cygwin-x86_64 --cross-compile-prefix=x86_64-pc-cygwin- no-asm no-pinshared --prefix=/opt/openssl3 --openssldir=/opt/openssl3
 RUN cd /usr/local/src/openssl && make
