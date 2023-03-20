@@ -1,6 +1,9 @@
 # syntax=docker/dockerfile:1
-FROM fedora:34 AS builder
+FROM fedora:37 AS builder
 MAINTAINER Dan Bryant (daniel.bryant@linux.com)
+
+# add variable VERSION for OpenSSL version number, default value here is 3.0.2
+ARG VERSION=3.1.0
 
 ENV TZ=Europe/London
 
@@ -31,7 +34,7 @@ RUN dnf install -y git file zip patch
 RUN mkdir /opt/openssl3
 
 # clone openssl v3
-RUN cd /usr/local/src && git clone --branch openssl-3.0.1 https://github.com/openssl/openssl.git
+RUN cd /usr/local/src && git clone --branch openssl-${VERSION} https://github.com/openssl/openssl.git
 RUN cd /usr/local/src/openssl && ./Configure Cygwin-x86_64 --cross-compile-prefix=x86_64-pc-cygwin- no-asm no-pinshared --prefix=/opt/openssl3 --openssldir=/opt/openssl3
 RUN cd /usr/local/src/openssl && make
 RUN cd /usr/local/src/openssl && make install_sw
